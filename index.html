@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airdrop Analytics Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                <span>Airdrop Analytics</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="#" class="nav-item" data-page="projects">
+                    <span class="icon">🎯</span> Projects
+                </a>
+                <a href="#" class="nav-item" data-page="finder">
+                    <span class="icon">🔍</span> Airdrop Finder
+                </a>
+                <a href="#" class="nav-item" data-page="stats">
+                    <span class="icon">📈</span> Statistics
+                </a>
+                <a href="#" class="nav-item" data-page="alerts">
+                    <span class="icon">🔔</span> Alerts
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <span class="status-dot active"></span>
+                    Real-time Active
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <header class="page-header">
+                    <h1>Dashboard Overview</h1>
+                    <div class="header-actions">
+                        <button class="btn-refresh" onclick="refreshData()">
+                            <span>↻</span> Refresh
+                        </button>
+                        <select class="time-filter">
+                            <option>24 Hours</option>
+                            <option>7 Days</option>
+                            <option>30 Days</option>
+                        </select>
+                    </div>
+                </header>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-info">
+                            <h3>Active Airdrops</h3>
+                            <p class="stat-value" id="activeAirdrops">47</p>
+                            <span class="stat-change positive">+12 this week</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <h3>Total Value</h3>
+                            <p class="stat-value" id="totalValue">$2.4M</p>
+                            <span class="stat-change positive">+$340K</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3>Participants</h3>
+                            <p class="stat-value" id="participants">12,847</p>
+                            <span class="stat-change positive">+2.1K</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-info">
+                            <h3>Success Rate</h3>
+                            <p class="stat-value" id="successRate">78%</p>
+                            <span class="stat-change negative">-3%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Airdrop Value Trend</h3>
+                        <canvas id="valueChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Project Categories</h3>
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Airdrops Table -->
+                <div class="table-card">
+                    <h3>Recent Airdrops</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Type</th>
+                                    <th>Value</th>
+                                    <th>Status</th>
+                                    <th>Deadline</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentAirdrops">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Page -->
+            <div id="projects" class="page">
+                <header class="page-header">
+                    <h1>Projects Analysis</h1>
+                    <input type="text" class="search-input" placeholder="Search projects..." id="projectSearch">
+                </header>
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+
+            <!-- Airdrop Finder Page -->
+            <div id="finder" class="page">
+                <header class="page-header">
+                    <h1>Airdrop Finder</h1>
+                    <p class="subtitle">Automatically discover new airdrop opportunities</p>
+                </header>
+                <div class="finder-controls">
+                    <div class="filter-group">
+                        <select id="chainFilter">
+                            <option>All Chains</option>
+                            <option>Ethereum</option>
+                            <option>Solana</option>
+                            <option>Polygon</option>
+                            <option>Arbitrum</option>
+                        </select>
+                        <select id="typeFilter">
+                            <option>All Types</option>
+                            <option>Token Airdrop</option>
+                            <option>NFT Airdrop</option>
+                            <option>Testnet</option>
+                            <option>Retroactive</option>
+                        </select>
+                        <select id="difficultyFilter">
+                            <option>All Difficulty</option>
+                            <option>Easy</option>
+                            <option>Medium</option>
+                            <option>Hard</option>
+                        </select>
+                    </div>
+                    <button class="btn-find" onclick="findAirdrops()">
+                        <span>🔍</span> Find Airdrops
+                    </button>
+                </div>
+                <div class="finder-results" id="finderResults">
+                    <!-- Dynamic content -->
+                </div>
+                <div class="auto-refresh">
+                    <label>
+                        <input type="checkbox" id="autoRefresh" checked>
+                        Auto-refresh every 5 minutes
+                    </label>
+                </div>
+            </div>
+
+            <!-- Statistics Page -->
+            <div id="stats" class="page">
+                <header class="page-header">
+                    <h1>Detailed Statistics</h1>
+                </header>
+                <div class="stats-detailed">
+                    <div class="chart-card full-width">
+                        <h3>Airdrop Distribution by Chain</h3>
+                        <canvas id="chainDistribution"></canvas>
+                    </div>
+                    <div class="chart-card full-width">
+                        <h3>Weekly Activity</h3>
+                        <canvas id="weeklyActivity"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alerts Page -->
+            <div id="alerts" class="page">
+                <header class="page-header">
+                    <h1>Real-time Alerts</h1>
+                </header>
+                <div class="alerts-list" id="alertsList">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
