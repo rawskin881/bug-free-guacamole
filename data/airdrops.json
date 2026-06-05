@@ -1,1 +1,30 @@
-
+{
+  "airdrops": [
+    {
+      "id": 1,
+      "name": "Arbitrum Nova",
+      "type": "Token Airdrop",
+      "value": "$850,000",
+      "chain": "Arbitrum",
+      "difficulty": "Easy",
+      "status": "active",
+      "deadline": "2024-03-15",
+      "participants": 15420,
+      "progress": 75,
+      "tasks": ["Follow Twitter", "Join Discord", "Bridge tokens"]
+    },
+    {
+      "id": 2,
+      "name": "ZkSync Era",
+      "type": "Token Airdrop",
+      "value": "$1,200,000",
+      "chain": "Ethereum",
+      "difficulty": "Medium",
+      "status": "upcoming",
+      "deadline": "2024-04-01",
+      "participants": 23450,
+      "progress": 45,
+      "tasks": ["Testnet interaction", "LP provision", "NFT mint"]
+    }
+  ]
+}
